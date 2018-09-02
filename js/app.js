@@ -100,7 +100,7 @@ allCards.forEach(card => {
 });
 
 const check = () => {
-  const checking = openCards[0].dataset.card == openCards[1].dataset.card;
+  const checking = openCards[0].dataset.card === openCards[1].dataset.card;
   checking ? matchCards() : unMatchCards();
 };
 
@@ -123,7 +123,7 @@ let unMatchCards = () => {
     openCards = [];
     // unlock card clicking method
     cardLock = false;
-  }, 1000);
+  }, 1500);
 }
 
 /*==============
@@ -131,10 +131,27 @@ let unMatchCards = () => {
  ==============*/
 const moves = document.querySelector('.moves');
 
-// initialize move counter from zero
+// initialize moves counter from zero
 let allMoves = 0;
 
 const movesCounter = () => {
   allMoves++;
   allMoves == 1 ? moves.innerText = `${allMoves} Move` : moves.innerText = `${allMoves} Moves`;
+
+  // Stars rating
+  const stars = document.querySelectorAll('.fa-star');
+
+  switch (allMoves) {
+    case 10:
+      stars[2].classList.remove('fa-star');
+      stars[2].classList.add('fa-star-o');
+      break;
+    case 15:
+      stars[1].classList.remove('fa-star');
+      stars[1].classList.add('fa-star-o');
+      break;
+    case 20:
+      stars[0].classList.remove('fa-star');
+      stars[0].classList.add('fa-star-o');
+  }
 }
