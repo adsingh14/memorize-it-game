@@ -3,31 +3,32 @@
 /*
  * Create a list that holds all of your cards
  */
-// Card deck
-const cards = ["diamond", "paper-plane-o", "anchor", "bolt", "cube", "leaf", "bicycle", "bomb"];
-const cardList = cards.concat(cards);
+let gameStart = () => {
+  // Card deck
+  const cards = ["diamond", "paper-plane-o", "anchor", "bolt", "cube", "leaf", "bicycle", "bomb"];
+  const cardList = cards.concat(cards);
 
-// shuffle list of cards
-shuffle(cardList);
+  // shuffle list of cards
+  shuffle(cardList);
 
-// Place cardList in deck
-const deck = document.querySelector('.deck');
-const temp_deck = document.createDocumentFragment();
+  // Place cardList in deck
+  const deck = document.querySelector('.deck');
+  const temp_deck = document.createDocumentFragment();
 
-for (let card = 0; card < cardList.length; card++) {
+  for (let card = 0; card < cardList.length; card++) {
 
-  let li = document.createElement('li');
-  li.className = 'card';
-  li.setAttribute('data-card', cardList[card]);
+    let li = document.createElement('li');
+    li.className = 'card';
+    li.setAttribute('data-card', cardList[card]);
 
-  let i = document.createElement('i');
-  i.classList = `fa fa-${cardList[card]}`;
+    let i = document.createElement('i');
+    i.classList = `fa fa-${cardList[card]}`;
 
-  li.appendChild(i);
-  temp_deck.appendChild(li);
+    li.appendChild(i);
+    temp_deck.appendChild(li);
+  }
+  deck.appendChild(temp_deck);
 }
-deck.appendChild(temp_deck);
-
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided 'shuffle' method below
@@ -35,7 +36,7 @@ deck.appendChild(temp_deck);
  *   - add each card's HTML to the page
  */
 
-// Shuffle function from http://stackoverflow.com/a/2450976
+// Shuffle function from Fisher-Yates (aka Knuth-shuffle).
 function shuffle(array) {
   var currentIndex = array.length,
     temporaryValue, randomIndex;
@@ -51,6 +52,7 @@ function shuffle(array) {
   return array;
 }
 
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -62,42 +64,59 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+// Game loads on refresh
+gameStart();
+
+/* -- Card flipping section start -- */
 const allCards = document.querySelectorAll('.card');
+
+// Temporary card' list for matching
 let openCards = [];
+
+// To avoid the opening of third card
+let cardLock = false;
 
 allCards.forEach(card => {
   card.addEventListener('click', event => {
-    openCards.push(card);
 
+    if (cardLock) { return true; }
+    // Add cards into temporary stack
+    openCards.push(card);
     // Disable event trigger on cards having 'open','show' and 'match' classes
     if (!card.classList.contains('show') && !card.classList.contains('open') && !card.classList.contains('match')) {
       card.classList.add('open', 'show');
       if (openCards.length == 2) {
+
+        // to check the card similarity
         check();
       }
     }
   });
 });
 
-// For checking the matched pair of cards
 const check = () => {
-  if (openCards[0].dataset.card == openCards[1].dataset.card) {
-
-    // Match
-    for (let card of openCards) {
-      card.classList.add('open', 'show', 'match');
-    }
-    openCards = [];
-  } else {
-
-    // Not matched
-    setTimeout(() => {
-      for (let card of openCards) {
-        card.classList.remove('open', 'show');
-      }
-      openCards = [];
-    }, 1500);
-  }
+  const checking = openCards[0].dataset.card == openCards[1].dataset.card;
+  checking ? matchCards() : unMatchCards();
 };
 
-// TODO: Stop event on third click
+// when cards will match
+let matchCards = () => {
+  for (let card of openCards) {
+    card.classList.add('open', 'show', 'match');
+  }
+  openCards = [i];
+}
+
+// when cards will not match
+let unMatchCards = () => {
+  // lock wrong cards except first two until flipped back
+  cardLock = true;
+  setTimeout(() => {
+    for (let card of openCards) {
+      card.classList.remove('open', 'show');
+    }
+    openCards = [];
+    // unlock card clicking method
+    cardLock = false;
+  }, 1000);
+}
