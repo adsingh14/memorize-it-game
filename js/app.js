@@ -1,18 +1,44 @@
+"use strict";
+
 /*
  * Create a list that holds all of your cards
  */
+// Card deck
+const cards = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
+const allCards = cards.concat(cards);
+
+// shuffle list of cards
+shuffle(allCards);
+
+// Place allCards in deck
+const deck = document.querySelector('.deck');
+const temp_deck = document.createDocumentFragment();
+
+for (let card = 0; card < allCards.length; card++) {
+    let li = document.createElement('li');
+    li.classList = 'card';
+
+    let i = document.createElement('i');
+    i.classList = `fa ${allCards[card]}`;
+    li.appendChild(i);
+
+    temp_deck.appendChild(li);
+}
+deck.appendChild(temp_deck);
+
 
 
 /*
  * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
+ *   - shuffle the list of cards using the provided 'shuffle' method below
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    var currentIndex = array.length,
+        temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -24,7 +50,6 @@ function shuffle(array) {
 
     return array;
 }
-
 
 /*
  * set up the event listener for a card. If a card is clicked:
