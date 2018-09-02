@@ -82,6 +82,12 @@ let cardLock = false;
 allCards.forEach(card => {
   card.addEventListener('click', event => {
 
+    // initialize the timer on first click
+    if (!timerState) {
+      timeCounter();
+      timerState = true;
+    }
+
     if (cardLock) { return true; }
     // Add cards into temporary stack
     openCards.push(card);
@@ -154,4 +160,42 @@ const movesCounter = () => {
       stars[0].classList.remove('fa-star');
       stars[0].classList.add('fa-star-o');
   }
+
+}
+
+/*============
+\ -- Timer -- \
+ ===========*/
+
+const timer = document.querySelector('.timer');
+
+let minutes = 0;
+let seconds = 0;
+let timerState = false;
+
+// Timer function
+let timerSettings;
+
+let timeCounter = () => {
+  timerSettings = setInterval(() => {
+    seconds++;
+    if (seconds == 60) {
+      seconds = 0;
+      minutes++;
+    }
+    timer.innerText = timeFormat();
+  }, 1000);
+}
+
+// Showing the time in correct format
+let timeFormat = () => {
+  let ss = seconds < 10 ? `0${seconds}` : seconds;
+  let mm = minutes < 10 ? `0${minutes}` : minutes;
+  return `${mm}:${ss}`;
+}
+
+// Stop the timer
+const stopTimer = () => {
+  clearInterval(timerSettings);
+  timerState = false;
 }
