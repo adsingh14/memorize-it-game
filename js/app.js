@@ -1,10 +1,11 @@
 "use strict";
 
-/*
- * Create a list that holds all of your cards
- */
+/*===================
+\ Add cards to board \
+ ===================*/
 let gameStart = () => {
-  // Card deck
+
+  // Create a list that holds all of your cards
   const cards = ["diamond", "paper-plane-o", "anchor", "bolt", "cube", "leaf", "bicycle", "bomb"];
   const cardList = cards.concat(cards);
 
@@ -67,7 +68,9 @@ function shuffle(array) {
 // Game loads on refresh
 gameStart();
 
-/* -- Card flipping section start -- */
+/*=================
+\ Card flip method \
+ =================*/
 const allCards = document.querySelectorAll('.card');
 
 // Temporary card' list for matching
@@ -89,6 +92,8 @@ allCards.forEach(card => {
 
         // to check the card similarity
         check();
+        // Add a move count on opening card pair
+        movesCounter();
       }
     }
   });
@@ -104,7 +109,7 @@ let matchCards = () => {
   for (let card of openCards) {
     card.classList.add('open', 'show', 'match');
   }
-  openCards = [i];
+  openCards = [];
 }
 
 // when cards will not match
@@ -119,4 +124,17 @@ let unMatchCards = () => {
     // unlock card clicking method
     cardLock = false;
   }, 1000);
+}
+
+/*==============
+\ Moves Counter \
+ ==============*/
+const moves = document.querySelector('.moves');
+
+// initialize move counter from zero
+let allMoves = 0;
+
+const movesCounter = () => {
+  allMoves++;
+  allMoves == 1 ? moves.innerText = `${allMoves} Move` : moves.innerText = `${allMoves} Moves`;
 }
