@@ -11,9 +11,9 @@
 
 - Click on any card to start the game.
 - After that, click on another card to match the pair.
-- Complete the game in less than 25 moves to get a trophy[^*] else a gift[^*].
+- Complete the game in less than 25 moves to get a trophy* else a gift*.
 
-[^*]: Imaginary gift (not a real one).
+* **Note**: Imaginary gift (not a real one).
 
 ## License
 
