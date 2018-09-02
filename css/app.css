@@ -1,111 +1,271 @@
 html {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 *,
 *::before,
 *::after {
-    box-sizing: inherit;
+  box-sizing: inherit;
 }
 
 html,
 body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
-    font-family: 'Coda', cursive;
+  background: #ffffff url('../img/geometry2.png');
+  /* Background pattern from Subtle Patterns */
+  font-family: 'Coda', cursive;
 }
 
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 h1 {
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 300;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
 }
+
+
 
 /*
  * Styles for the deck of cards
  */
 
 .deck {
-    width: 660px;
-    min-height: 680px;
-    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
-    padding: 32px;
-    border-radius: 10px;
-    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 0 3em;
+  width: 660px;
+  min-height: 680px;
+  background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+  padding: 32px;
+  border-radius: 10px;
+  box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 3em;
 }
 
 .deck .card {
-    height: 125px;
-    width: 125px;
-    background: #2e3d49;
-    font-size: 0;
-    color: #ffffff;
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+  height: 125px;
+  width: 125px;
+  background: #2e3d49;
+  font-size: 0;
+  color: #ffffff;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+
+  transition: transform 0.4s ease;
+  transform: rotateY(180deg);
 }
 
 .deck .card.open {
-    transform: rotateY(0);
-    background: #02b3e4;
-    cursor: default;
+  transform: rotateY(0);
+  background: #02b3e4;
+  cursor: default;
 }
 
 .deck .card.show {
-    font-size: 33px;
+  font-size: 33px;
 }
 
 .deck .card.match {
-    cursor: default;
-    background: #02ccba;
-    font-size: 33px;
+  cursor: default;
+  background: #02ccba;
+  font-size: 33px;
+  animation: jello 1s ease both;
 }
+
+.card.open.wrong {
+  background: #d63332;
+  animation: wobble 0.5s ease;
+  transform-origin: bottom;
+}
+
+.disabled {
+  pointer-events: none;
+}
+
 
 /*
  * Styles for the Score Panel
  */
 
 .score-panel {
-    text-align: left;
-    width: 345px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-around;
+  text-align: left;
+  width: 345px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-around;
 }
 
 .score-panel .stars {
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-    margin: 0 5px 0 0;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  margin: 0 5px 0 0;
 }
 
 .score-panel .stars li {
-    list-style: none;
-    display: inline-block;
+  list-style: none;
+  display: inline-block;
 }
 
 .score-panel .restart {
-    float: right;
-    cursor: pointer;
+  float: right;
+  cursor: pointer;
+}
+
+
+/* Custom Animations */
+
+@keyframes wobble {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+
+  25% {
+    transform: translateX(-5px) rotate(-10deg);
+  }
+
+  75% {
+    transform: translateX(5px) rotate(10deg);
+  }
+}
+
+@keyframes jello {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+
+  29%,
+  49% {
+    transform: scale(1.3, 1);
+  }
+
+  35% {
+    transform: scale(1, 1.05);
+  }
+
+  50%,
+  70% {
+    transform: scale(1.1, 1);
+  }
+
+  60% {
+    transform: scale(1, 1);
+  }
+}
+
+
+/*popup*/
+
+.overlay {
+  position: fixed;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.popup {
+  background: #f8f8f8;
+  border-radius: 10px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  padding: 20px;
+  width: 340px;
+}
+
+.overlay.show {
+  z-index: 2;
+  opacity: 1;
+  animation: jello 0.8s both;
+}
+
+.popup h2 {
+  margin-top: 0;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.final-stars {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.final-stars li {
+  padding: 0 3px;
+  list-style-type: none;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.btn {
+  padding: 10px;
+  text-decoration: none;
+  border-radius: 4px;
+  color: white;
+  box-shadow: 0 5px 10px #aaa;
+  transition: box-shadow 0.3s;
+
+}
+
+.btn:hover {
+  box-shadow: 0 2px 15px #aaa;
+}
+
+.btn i {
+    width: 0;
+    opacity: 0;
+    transition: opacity 0.2s, width 0.2s;
+}
+
+.btn:hover i{
+    opacity: 1;
+    width: 18px;
+}
+
+.replay {
+  background-color: #45d09c;
+}
+
+.close {
+  background-color: #f54949;
+}
+
+hr {
+  border: thin solid #fff;
+  border-top: thin solid #ddd;
 }

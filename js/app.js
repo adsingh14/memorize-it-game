@@ -1,34 +1,35 @@
-"use strict";
+function gameStart() {
 
-/*===================
-\ Add cards to board \
- ===================*/
-let gameStart = () => {
+  // @description Create a list that holds all of your cards
 
-  // Create a list that holds all of your cards
   const cards = ["diamond", "paper-plane-o", "anchor", "bolt", "cube", "leaf", "bicycle", "bomb"];
   const cardList = cards.concat(cards);
 
-  // shuffle list of cards
+  /*===================
+  \ Add cards to board \
+  ===================*/
+
+  // @description shuffle list of cards
   shuffle(cardList);
 
-  // Place cardList in deck
+  // @description Place cardList in deck
   const deck = document.querySelector('.deck');
   const temp_deck = document.createDocumentFragment();
 
-  for (let card = 0; card < cardList.length; card++) {
-
+  deck.innerHTML = "";
+  for (let j = 0; j < cardList.length; j++) {
     let li = document.createElement('li');
-    li.className = 'card';
-    li.setAttribute('data-card', cardList[card]);
+    li.classList = 'card';
+    li.setAttribute('data-card', cardList[j]);
 
     let i = document.createElement('i');
-    i.classList = `fa fa-${cardList[card]}`;
+    i.classList = `fa fa-${cardList[j]}`;
 
     li.appendChild(i);
     temp_deck.appendChild(li);
   }
   deck.appendChild(temp_deck);
+
 }
 /*
  * Display the cards on the page
@@ -37,7 +38,7 @@ let gameStart = () => {
  *   - add each card's HTML to the page
  */
 
-// Shuffle function from Fisher-Yates (aka Knuth-shuffle).
+// @description Shuffle function from Fisher-Yates (aka Knuth-shuffle).
 function shuffle(array) {
   var currentIndex = array.length,
     temporaryValue, randomIndex;
@@ -65,102 +66,125 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-// Game loads on refresh
-gameStart();
+// @description Game loads on window loads
+window.onload = gameStart();
+
+// @description Load card-swap logic
+cardLogic();
 
 /*=================
 \ Card flip method \
- =================*/
-const allCards = document.querySelectorAll('.card');
+=================*/
 
-// Temporary card' list for matching
+// @description Temporary card' list for matching
 let openCards = [];
-
-// To avoid the opening of third card
+// @description To avoid the opening of third card
 let cardLock = false;
 
-allCards.forEach(card => {
-  card.addEventListener('click', event => {
+function cardLogic() {
+  var allCards = document.querySelectorAll('.card');
 
-    // initialize the timer on first click
+  allCards.forEach(card => card.addEventListener('click', event => {
+    event.preventDefault();
+    // @description initialize the timer on first click
     if (!timerState) {
       timeCounter();
       timerState = true;
     }
-
-    if (cardLock) { return true; }
-    // Add cards into temporary stack
+    // @description Add cards into temporary stack
     openCards.push(card);
-    // Disable event trigger on cards having 'open','show' and 'match' classes
-    if (!card.classList.contains('show') && !card.classList.contains('open') && !card.classList.contains('match')) {
-      card.classList.add('open', 'show');
-      if (openCards.length == 2) {
+    if (cardLock) { return true; }
+    // @description Disable event trigger on cards having 'open','show' and 'match' classes
+    card.classList.add('open', 'show', 'disabled');
+    if (openCards.length == 2) {
 
-        // to check the card similarity
-        check();
-        // Add a move count on opening card pair
-        movesCounter();
-      }
+      // @description to check the card similarity
+      check();
+      // @description Add a move count on opening card pair
+      movesCounter();
     }
-  });
-});
+  }));
 
-const check = () => {
-  const checking = openCards[0].dataset.card === openCards[1].dataset.card;
-  checking ? matchCards() : unMatchCards();
-};
+  function check() {
+    const checking = openCards[0].dataset.card === openCards[1].dataset.card;
+    checking ? matchCards() : unMatchCards();
+  };
 
-// when cards will match
-let matchCards = () => {
-  for (let card of openCards) {
-    card.classList.add('open', 'show', 'match');
-  }
-  openCards = [];
-}
+  // @description when cards will match
+  function matchCards() {
+    openCards.forEach(openCard => {
+      openCard.classList.add('open', 'show', 'match', 'disabled');
+    });
 
-// when cards will not match
-let unMatchCards = () => {
-  // lock wrong cards except first two until flipped back
-  cardLock = true;
-  setTimeout(() => {
-    for (let card of openCards) {
-      card.classList.remove('open', 'show');
-    }
     openCards = [];
-    // unlock card clicking method
-    cardLock = false;
-  }, 1500);
-}
+  }
 
+  // @description when cards will not match
+  function unMatchCards() {
+    openCards.forEach(openCard => {
+      openCard.classList.add('wrong');
+    });
+
+    // @description lock wrong cards except first two until flipped back
+    cardLock = true;
+    setTimeout(() => {
+      openCards.forEach(openCard => {
+        openCard.classList.remove('open', 'show', 'wrong', 'disabled');
+      });
+
+      // @description unlock card clicking method
+      cardLock = false;
+      openCards = [];
+    }, 1000);
+  }
+}
 /*==============
 \ Moves Counter \
- ==============*/
+ =============*/
 const moves = document.querySelector('.moves');
 
-// initialize moves counter from zero
+// @description initialize moves counter
 let allMoves = 0;
 
-const movesCounter = () => {
+function movesCounter() {
   allMoves++;
   allMoves == 1 ? moves.innerText = `${allMoves} Move` : moves.innerText = `${allMoves} Moves`;
+  starsCounter(allMoves);
 
-  // Stars rating
-  const stars = document.querySelectorAll('.fa-star');
+  // @description Check win status
+  checkWin();
+}
 
+/*=============
+\ Stars rating \
+ =============*/
+const stars = document.querySelector('.stars');
+const popupStars = document.querySelector('.final_stars');
+// @description empty stars
+let deducted_stars = 0;
+
+let starsCounter = allMoves => {
   switch (allMoves) {
     case 10:
-      stars[2].classList.remove('fa-star');
-      stars[2].classList.add('fa-star-o');
+      stars.children[2].children[0].classList.remove('fa-star');
+      stars.children[2].children[0].classList.add('fa-star-o');
+
+      popupStars.children[2].remove();
+
       break;
     case 15:
-      stars[1].classList.remove('fa-star');
-      stars[1].classList.add('fa-star-o');
+      stars.children[1].children[0].classList.remove('fa-star');
+      stars.children[1].children[0].classList.add('fa-star-o');
+
+      popupStars.children[1].remove();
       break;
     case 20:
-      stars[0].classList.remove('fa-star');
-      stars[0].classList.add('fa-star-o');
-  }
+      stars.children[0].children[0].classList.remove('fa-star');
+      stars.children[0].children[0].classList.add('fa-star-o');
 
+      popupStars.children[0].remove();
+      break;
+  }
 }
 
 /*============
@@ -173,29 +197,84 @@ let minutes = 0;
 let seconds = 0;
 let timerState = false;
 
-// Timer function
+// @description Timer function
 let timerSettings;
 
-let timeCounter = () => {
+function timeCounter() {
   timerSettings = setInterval(() => {
     seconds++;
     if (seconds == 60) {
       seconds = 0;
       minutes++;
     }
-    timer.innerText = timeFormat();
+    timer.innerText = timeFormat(seconds, minutes);
   }, 1000);
 }
 
-// Showing the time in correct format
-let timeFormat = () => {
-  let ss = seconds < 10 ? `0${seconds}` : seconds;
-  let mm = minutes < 10 ? `0${minutes}` : minutes;
+// @description Showing the time in correct format
+let timeFormat = (ss, mm) => {
+  ss = seconds < 10 ? `0${seconds}` : seconds;
+  mm = minutes < 10 ? `0${minutes}` : minutes;
   return `${mm}:${ss}`;
 }
 
-// Stop the timer
-const stopTimer = () => {
+// @description Stop the timer
+function stopTimer() {
   clearInterval(timerSettings);
   timerState = false;
+}
+
+/*=====================
+\ Check winning status \
+=====================*/
+
+function checkWin() {
+  let pairedCards = document.querySelectorAll('.match');
+  if (pairedCards.length === 16) {
+    console.log("WIN");
+    // @description resetGame();
+
+    // @description to show the winner popup
+    winPopup();
+  }
+}
+
+/*=============
+\ Restart game \
+=============*/
+const restart = document.querySelector('.restart');
+
+restart.addEventListener('click', () => {
+  const restartBox = confirm("Are you sure to reset this game ?");
+  if (restartBox) {
+    document.location.reload();
+  }
+});
+
+/*=============
+\ Winner Popup \
+=============*/
+
+function winPopup() {
+  // @description to print the timer
+  document.querySelector('.final_timer').innerText = timer.innerText;
+
+  // @description to print the moves
+  document.querySelector('.final_moves').innerText = allMoves;
+
+  stopTimer();
+  const popupModal = document.querySelector('.overlay');
+  popupModal.classList.add('show');
+
+  const closeBtn = document.querySelector('.close');
+  closeBtn.addEventListener('click', removePopup);
+
+  function removePopup() {
+    popupModal.classList.remove('show');
+  }
+
+  // @description to print the moves
+  document.querySelector('.replay').addEventListener('click', () => {
+    this.location.reload();
+  });
 }
