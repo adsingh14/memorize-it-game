@@ -3,19 +3,20 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Matching Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memorize it!</title>
   <meta name="description" content="">
   <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-  <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
+  <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
   <link rel="stylesheet" href="css/app.css">
 </head>
 
 <body>
   <div class="container">
     <header>
-      <h1>Matching Game</h1>
+      <h1>Memorize it!</h1>
     </header>
-    <section class="score-panel">
+    <div class="score-panel border">
       <ul class="stars">
         <li><i class="fa fa-star"></i></li>
         <li><i class="fa fa-star"></i></li>
@@ -26,31 +27,38 @@
       <div class="restart">
         <i class="fa fa-repeat"></i>
       </div>
-    </section>
-    <ul class="deck"></ul>
+      <script>
 
+      </script>
+    </div>
+    <ul class="deck"></ul>
+    <p class="developer_info border">
+        <i class="fa fa-code"></i> with <i class="fa fa-heart"></i> by:
+        <a href="https://github.com/adsingh14" target="_blank">Amandeep Singh</a>
+    </p>
   </div>
   <!-- win modal -->
   <div class="overlay">
     <div class="popup">
-      <h2>Congratulations</h2>
+      <h2 class="popupMsg">Perfect !!!</h2>
       <hr>
       <div class="stats">
-        <h4><span class="final_moves">0</span>  Moves</h4>
+        <h4><span class="final_moves">0</span> Moves</h4>
         <div class="symbols">
           <div class="final_stars">
             <i class="fa fa-star"></i>
             <i class="fa fa-star"></i>
             <i class="fa fa-star"></i>
           </div>
-          <div class="fa fa-3x fa-trophy"></div>
+          <div class="prize">
+              <!-- <i class="fa fa-3x fa-trophy"></i> -->
+          </div>
         </div>
         <h4><span class="final_timer">00:00</span></h4>
       </div>
       <hr>
       <div class="buttons">
         <a class="btn replay" href="#"><i class="fa fa-repeat"></i>Replay</a>
-        <a class="btn close" href="#"><i class="fa fa-close"></i>Close</a>
       </div>
     </div>
   </div>

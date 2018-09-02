@@ -17,63 +17,82 @@ body {
 }
 
 body {
-  background: #ffffff url('../img/geometry2.png');
+  background: #fff url('../img/geometry-night.png');
   /* Background pattern from Subtle Patterns */
-  font-family: 'Coda', cursive;
+  font: 1.1rem 'Nunito Sans', cursive;
+  color: #fff;
 }
+
+/* common classes*/
+.disabled { pointer-events: none; }
+
+.border { border: 2px solid #555; }
+
+.fa-heart { color: #ff3d3d; }
+
+/* common end */
 
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  overflow: hidden;
 }
 
 h1 {
-  font-family: 'Open Sans', sans-serif;
   font-weight: 300;
+  position: relative;
 }
 
-
+h1:after {
+  bottom: -5px;
+  content: '- a brain sharpening excercise.';
+  font-size: 12px;
+  left: 50%;
+  position: absolute;
+  text-align: right;
+  transform: translateX(-50%);
+  width: 100%;
+}
 
 /*
- * Styles for the deck of cards
- */
+* Styles for the deck of cards
+*/
 
 .deck {
-  width: 660px;
-  min-height: 680px;
-  background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
-  padding: 32px;
+  align-items: center;
+  background: radial-gradient(#e9aa22, #9302cc);
   border-radius: 10px;
-  box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
-  margin: 0 0 3em;
+  min-height: 660px;
+  padding: 14px;
+  transition: height 0.3s, width 0.2s;
+  width: 660px;
 }
 
 .deck .card {
-  height: 125px;
-  width: 125px;
-  background: #2e3d49;
-  font-size: 0;
-  color: #ffffff;
+  align-items: center;
+  background-color: #23323d;
   border-radius: 8px;
+  box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+  color: #fff;
   cursor: pointer;
   display: flex;
+  font-size: 0;
+  height: 135px;
   justify-content: center;
-  align-items: center;
-  box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
-
-  transition: transform 0.4s ease;
+  margin: 8px;
   transform: rotateY(180deg);
+  transition: transform 0.4s ease;
+  width: 135px;
 }
 
 .deck .card.open {
   transform: rotateY(0);
-  background: #02b3e4;
+  background-color: #6f16b1;
   cursor: default;
 }
 
@@ -82,33 +101,31 @@ h1 {
 }
 
 .deck .card.match {
+  background-color: #4b7bda;
   cursor: default;
-  background: #02ccba;
   font-size: 33px;
   animation: jello 1s ease both;
 }
 
 .card.open.wrong {
-  background: #d63332;
+  background-color: #ee551d;
   animation: wobble 0.5s ease;
   transform-origin: bottom;
 }
 
-.disabled {
-  pointer-events: none;
-}
-
-
 /*
- * Styles for the Score Panel
- */
+* Styles for the Score Panel
+*/
 
 .score-panel {
   text-align: left;
-  width: 345px;
-  margin-bottom: 10px;
+  min-width: 300px;
   display: flex;
   justify-content: space-around;
+  padding: 10px;
+  border-radius: 50px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
 }
 
 .score-panel .stars {
@@ -127,7 +144,6 @@ h1 {
   float: right;
   cursor: pointer;
 }
-
 
 /* Custom Animations */
 
@@ -171,31 +187,44 @@ h1 {
   }
 }
 
+/*developer info*/
+
+.developer_info {
+  padding: 0.6em ;
+  border-radius: 50px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.developer_info a {
+  text-decoration: none;
+  color: inherit;
+}
 
 /*popup*/
 
 .overlay {
-  position: fixed;
-  text-align: center;
-  background: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
   height: 100%;
-  width: 100%;
-  top: 0;
   left: 0;
-  z-index: -1;
   opacity: 0;
+  position: fixed;
+  text-align: center;
+  top: 0;
   transition: opacity 0.5s ease;
+  width: 100%;
+  z-index: -1;
 }
 
 .popup {
-  background: #f8f8f8;
+  background: linear-gradient(#bb0303, #650707);
   border-radius: 10px;
-  position: absolute;
-  transform: translate(-50%, -50%);
+  border: 2px solid rgb(165, 161, 161);
   left: 50%;
-  top: 50%;
   padding: 20px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
   width: 340px;
 }
 
@@ -211,8 +240,13 @@ h1 {
 
 .stats {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
+}
+
+.stats > div,
+.stats > h4 {
+  flex-basis: 33.333%;
 }
 
 .final-stars {
@@ -236,36 +270,54 @@ h1 {
   padding: 10px;
   text-decoration: none;
   border-radius: 4px;
-  color: white;
-  box-shadow: 0 5px 10px #aaa;
+  color: #fff;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.6);
   transition: box-shadow 0.3s;
-
+  margin-top: 8px
 }
 
 .btn:hover {
-  box-shadow: 0 2px 15px #aaa;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
 }
 
 .btn i {
-    width: 0;
-    opacity: 0;
-    transition: opacity 0.2s, width 0.2s;
-}
-
-.btn:hover i{
-    opacity: 1;
-    width: 18px;
+  padding-right: 10px;
 }
 
 .replay {
-  background-color: #45d09c;
-}
-
-.close {
-  background-color: #f54949;
+  background-color: #0062d6;
 }
 
 hr {
-  border: thin solid #fff;
-  border-top: thin solid #ddd;
+  border: none;
+  height: 1px;
+  background-color: #ff3d3d;
+}
+
+
+/*=============
+\  Breakpoint  \
+============*/
+
+/* Mobile */
+@media screen and (max-width: 680px) {
+  .deck {
+    min-height: unset;
+    width: 310px;
+    height: 310px;
+    padding: 6px;
+    border-radius: 6px;
+    margin-bottom: 0;
+  }
+
+  .deck .card {
+    height: calc(100% / 5);
+    width: calc(100% / 5);
+    margin: 6px;
+    border-radius: inherit;
+  }
+
+  .deck .card.show {
+    font-size: 24px;
+  }
 }

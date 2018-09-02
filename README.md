@@ -1,20 +1,20 @@
-# Memory Game Project
+# Memorize it! (Memory Game Project)
 
-## Table of Contents
+**Memorize it!** is alternative of concentration/memory game. Try to unveil all cards as soon as possible. Enjoy !!!!
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+## Tech
+- HTML
+- CSS3
+- Vanilla Javascript (and ES6)
 
-## Instructions
+## How to play
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+- Click on any card to start the game.
+- After that, click on another card to match the pair.
+- Complete the game in less than 25 moves to get a trophy[^*] else a gift[^*].
 
-To get started, open `js/app.js` and start building out the app's functionality
+[^*]: Imaginary gift (not a real one).
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+## License
 
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+MIT
