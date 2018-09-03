@@ -1,3 +1,5 @@
+"use strict";
+
 function gameStart() {
 
   // @description Create a list that holds all of your cards
@@ -33,7 +35,8 @@ function gameStart() {
 
 // @description Shuffle function from Fisher-Yates (aka Knuth-shuffle).
 function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
+  var currentIndex = array.length,
+    temporaryValue, randomIndex;
 
   while (currentIndex !== 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
@@ -148,31 +151,49 @@ function cardLogic() {
   // @description winner prize
   const prize = document.querySelector(".prize");
 
+  // @description indicating loosing star with animation
+  let loosingStar = () => {
+    stars.parentNode.style.animation = "jello 0.7s ease";
+    setTimeout(() => {
+      stars.parentNode.style.animation = 'none';
+    }, 1000);
+  }
+
   let starsCounter = allMoves => {
+    // @description add 'gift' prize on loosing all stars
+    if (allMoves > 25) {
+      prize.innerHTML = `<i class="fa fa-3x fa-gift"></i>`;
+    }
+
     switch (allMoves) {
       case 15:
         stars.children[2].children[0].classList.remove('fa-star');
         stars.children[2].children[0].classList.add('fa-star-o');
 
+        loosingStar();
+
         popupMsg.innerText = "Well played !";
         popupStars.children[2].remove();
+        prize.innerHTML = `<i class="fa fa-3x fa-trophy"></i>`;
         break;
       case 20:
         stars.children[1].children[0].classList.remove('fa-star');
         stars.children[1].children[0].classList.add('fa-star-o');
+        loosingStar();
 
         popupMsg.innerText = "Not Bad !";
         popupStars.children[1].remove();
+        prize.innerHTML = `<i class="fa fa-3x fa-trophy"></i>`;
         break;
       case 25:
         stars.children[0].children[0].classList.remove('fa-star');
         stars.children[0].children[0].classList.add('fa-star-o');
+        loosingStar();
 
         popupMsg.innerText = "Keep it up !";
         popupStars.children[0].remove();
         prize.innerHTML = `<i class="fa fa-3x fa-gift"></i>`;
         break;
-      default: prize.innerHTML = `<i class="fa fa-3x fa-trophy"></i>`;
     }
   }
 
@@ -257,7 +278,8 @@ function cardLogic() {
 
     // @description to print the moves
     document.querySelector(".replay").addEventListener("click", () => {
-      this.location.reload();
+      // this.location.reload();
+      window.location.reload(true);
     });
   }
 }
