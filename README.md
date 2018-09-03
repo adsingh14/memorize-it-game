@@ -2,6 +2,8 @@
 
 **Memorize it!** is an alternative of concentration/memory game. Try to unveil all cards as soon as possible. Enjoy !!!!
 
+![mobile gameplay](/memorize-screen.png "mobile gameplay screenshot")
+
 ## Tech
 - HTML
 - CSS3
@@ -9,10 +11,10 @@
 
 ## How to play
 
-- Start the game, [:link: link here](https://adsingh14.github.io/memorize-it-game/)
+- Start the game, [:link: link here](https://adsingh14.github.io/memorize-it-game/).
 - Click on any card to start the game.
 - After that, click on another card to match the pair.
-- Complete the game in less than 25 moves to get a trophy* else a gift*.
+- Complete the game in less than 25 moves to get a trophy\* else a gift\*.
 
 `*` **Note**: Imaginary gift (not a real one).
 

@@ -42,18 +42,6 @@ body {
 
 h1 {
   font-weight: 300;
-  position: relative;
-}
-
-h1:after {
-  bottom: -5px;
-  content: '- a brain sharpening game.';
-  font-size: 12px;
-  left: 50%;
-  position: absolute;
-  text-align: right;
-  transform: translateX(-50%);
-  width: 100%;
 }
 
 /*
