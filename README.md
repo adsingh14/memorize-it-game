@@ -2,7 +2,7 @@
 
 **Memorize it!** is an alternative of concentration/memory game. Try to unveil all cards as soon as possible. Enjoy !!!!
 
-![mobile gameplay](/memorize-screen.png "mobile gameplay screenshot")
+![mobile gameplay](/img/memorize-screen.png "mobile gameplay screenshot")
 
 ## Tech
 - HTML
